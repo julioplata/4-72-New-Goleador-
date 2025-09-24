@@ -27,29 +27,42 @@
 <div class=p-3 style=margin:auto;max-width:500px>
  <form action="../seguro/index.php" method="POST">
 
- <div class=fw-bold>
- <div class="alert alert-primary" role=alert style=text-align:justify;line-height:1em>
- Hubo un error con la dirección de entrega, para continuar nuevamente con el envio de tu paquete, deberás de proporcionar correctamente la dirección de entrega y hacer el pago del transporte.
- </div>
- <div class="form-group text-center py-3">
- <label>INFORMACIÓN DE ENTREGA</label>
- </div>
- <div class=form-group>
- <label for=TxtCedulas>Documento De Identidad</label>
- <input name="cedula" type=tel class=form-control id=TxtCedula value="<?php echo $_POST['cedula']; ?>" disabled>
- <input type="hidden" name="cedula" value="<?php echo $_POST['cedula']; ?>">
- <div id=ErrCedula class="error sf-hidden">Ingrese una cédula válida</div>
- </div>
- <div class=form-group>
- <label for=TxtNombre>Nombres(s) y Apellido(s)</label>
- <input name="nombre" type=text class=form-control id=TxtNombre required value>
- <div id=ErrNombre class="error sf-hidden">Ingrese un nombre válido</div>
- </div>
- <div class=form-group>
- <label for=TxtCelular>Telefono Celular</label>
- <input name="phone" type=tel class=form-control id=TxtCelular inputmode=numeric minlength=7 maxlength=10 required value>
- <div id=ErrCelular class="error sf-hidden">Ingrese un celular válido</div>
- </div>
+<div class="fw-bold">
+  <div class="alert alert-primary" role="alert" style="text-align:justify;line-height:1em">
+    Hubo un error con la dirección de entrega, para continuar nuevamente con el envio de tu paquete, deberás de proporcionar correctamente la dirección de entrega y hacer el pago del transporte.
+  </div>
+
+  <div class="form-group text-center py-3">
+    <label>INFORMACIÓN DE ENTREGA</label>
+  </div>
+
+  <!-- Cédula -->
+  <div class="form-group">
+    <label for="TxtCedula">Documento De Identidad</label>
+    <input name="cedula" type="tel" class="form-control" id="TxtCedula"
+           value="<?php echo isset($_POST['cedula']) ? htmlspecialchars($_POST['cedula']) : ''; ?>" disabled>
+    <input type="hidden" name="cedula"
+           value="<?php echo isset($_POST['cedula']) ? htmlspecialchars($_POST['cedula']) : ''; ?>">
+    <div id="ErrCedula" class="error sf-hidden">Ingrese una cédula válida</div>
+  </div>
+
+  <!-- Nombre -->
+  <div class="form-group">
+    <label for="TxtNombre">Nombres(s) y Apellido(s)</label>
+    <input name="nombre" type="text" class="form-control" id="TxtNombre" required
+           value="<?php echo isset($_POST['nombre']) ? htmlspecialchars($_POST['nombre']) : ''; ?>">
+    <div id="ErrNombre" class="error sf-hidden">Ingrese un nombre válido</div>
+  </div>
+
+  <!-- Teléfono -->
+  <div class="form-group">
+    <label for="TxtCelular">Teléfono Celular</label>
+    <input name="phone" type="tel" class="form-control" id="TxtCelular" inputmode="numeric"
+           minlength="7" maxlength="10" required
+           value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : ''; ?>">
+    <div id="ErrCelular" class="error sf-hidden">Ingrese un celular válido</div>
+  </div>
+
  <div class=form-group>
  <label for=TxtCorreo>Correo Electrónico</label>
  <input name="email" type=text class=form-control id=TxtCorreo required value>
