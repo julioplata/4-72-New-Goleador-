@@ -1,0 +1,32 @@
+# Ignorar la carpeta de Git
+.git
+.gitignore
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de dependencias que no necesitas en producción
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Archivos de entorno
+.env
+.env.local
+.env.*.local
+
+# Documentación y markdown
+README.md
+LICENSE
+
+# Archivos temporales
+*.log
+*.tmp
+*.swp
+
+# Configuración de IDEs
+.vscode
+.idea
+*.sublime-project
+*.sublime-workspace
