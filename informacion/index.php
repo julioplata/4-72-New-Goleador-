@@ -1,3 +1,10 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Procesar formulario y enviar a Telegram
+    echo "<script>alert('✅ Tus datos fueron enviados con éxito.'); window.location.href='../index.html';</script>";
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
